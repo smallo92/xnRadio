@@ -24,16 +24,16 @@ CreateThread(function()
 	JayMenu.CreateMenu("radiowheel", "Radio Favourites", function() return CloseRadioMenu() end)
     JayMenu.SetSubTitle("radiowheel", "Hidden Stations")
 	
-	for i = 0, GetNumUnlockedRadioStations() do
+	for i = 0, GetNumUnlockedRadioStations() - 1 do
 		radioStations[GetRadioStationName(i)] = 0
 	end
 	
 	-- Load the KVPs on resource start and populate the table
-	for station, kvp in pairs(radioStations) do
+	for station, _ in pairs(radioStations) do
 		local kvpString = resourceKVPKey .. station
 		if GetResourceKvpInt(kvpString) == 1 then
 			radioStations[station] = 1
-			Citizen.InvokeNative(0x4CAFEBFA21EC188D, station, true) -- SetRadioStationIsVisible
+			Citizen.InvokeNative(0x4CAFEBFA21EC188D, station, false) -- SetRadioStationIsVisible
 		end
 	end
 	
@@ -43,14 +43,14 @@ CreateThread(function()
 		if JayMenu.IsMenuOpened("radiowheel") then
 			for station, kvp in pairs(radioStations) do
 				if kvp == 1 then
-					if JayMenu.SpriteButton(GetLabelText(station), "commonmenu", "shop_box_blank", "shop_box_blankb") then
+					if JayMenu.SpriteButton(GetLabelText(station), "commonmenu", "shop_box_tick", "shop_box_tickb") then
 						radioStations[station] = 0
-						Citizen.InvokeNative(0x4CAFEBFA21EC188D, station, false) -- SetRadioStationIsVisible
+						Citizen.InvokeNative(0x4CAFEBFA21EC188D, station, true) -- SetRadioStationIsVisible
 					end
 				else
-					if JayMenu.SpriteButton(GetLabelText(station), "commonmenu", "shop_box_tick", "shop_box_tickb") then
+					if JayMenu.SpriteButton(GetLabelText(station), "commonmenu", "shop_box_blank", "shop_box_blankb") then
 						radioStations[station] = 1
-						Citizen.InvokeNative(0x4CAFEBFA21EC188D, station, true) -- SetRadioStationIsVisible
+						Citizen.InvokeNative(0x4CAFEBFA21EC188D, station, false) -- SetRadioStationIsVisible
 					end
 				end
 			end

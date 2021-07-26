@@ -33,7 +33,7 @@ CreateThread(function()
 		local kvpString = resourceKVPKey .. station
 		if GetResourceKvpInt(kvpString) == 1 then
 			radioStations[station] = 1
-			Citizen.InvokeNative(0x4CAFEBFA21EC188D, station, false) -- SetRadioStationIsVisible
+			SetRadioStationIsVisible(station, false)
 		end
 	end
 	
@@ -45,12 +45,12 @@ CreateThread(function()
 				if kvp == 1 then
 					if JayMenu.SpriteButton(GetLabelText(station), "commonmenu", "shop_box_tick", "shop_box_tickb") then
 						radioStations[station] = 0
-						Citizen.InvokeNative(0x4CAFEBFA21EC188D, station, true) -- SetRadioStationIsVisible
+						SetRadioStationIsVisible(station, true)
 					end
 				else
 					if JayMenu.SpriteButton(GetLabelText(station), "commonmenu", "shop_box_blank", "shop_box_blankb") then
 						radioStations[station] = 1
-						Citizen.InvokeNative(0x4CAFEBFA21EC188D, station, false) -- SetRadioStationIsVisible
+						SetRadioStationIsVisible(station, false)
 					end
 				end
 			end

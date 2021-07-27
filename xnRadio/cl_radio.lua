@@ -19,11 +19,13 @@ function UpdateKVPs()
 	end
 end
 
+local waitTime = 100
 CreateThread(function()
 	-- Create the menu
 	JayMenu.CreateMenu("radiowheel", "Radio Favourites", function() return CloseRadioMenu() end)
     JayMenu.SetSubTitle("radiowheel", "Hidden Stations")
 	
+	-- Get all the radio stations
 	for i = 0, GetNumUnlockedRadioStations() - 1 do
 		radioStations[GetRadioStationName(i)] = 0
 	end
@@ -39,8 +41,10 @@ CreateThread(function()
 	
 	-- While the menu is open
 	while true do
-		Wait(0)
+		Wait(waitTime)
+		waitTime = 100
 		if JayMenu.IsMenuOpened("radiowheel") then
+			waitTime = 0
 			for station, kvp in pairs(radioStations) do
 				if kvp == 1 then
 					if JayMenu.SpriteButton(GetLabelText(station), "commonmenu", "shop_box_tick", "shop_box_tickb") then
